@@ -1,0 +1,46 @@
+import UIKit
+import CoreMotion
+import AVFoundation
+
+class ViewController: UIViewController {
+    @IBOutlet weak var Show: UIButton!
+    @IBOutlet weak var Question: UITextField!
+    @IBOutlet weak var Display: UITextView!
+    @IBOutlet weak var Message: UIViewController!
+    @IBOutlet weak var Label: UILabel!
+    
+
+
+override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+            let messages = ["As I see it, yes (and btw I'm right like most of the time)", "I don't have a clue, try again one more time.", "If I tell you now, you'll regret it later.", "My algorithm is malfunctioning, try again later.", "If I were you, I definitely wouldn't count on it.", "Everything, and I mean everything, points to yes.", "It is probably no.", "There is no doubt in my liquid, it is yes", "All the interstellar signs point to yes"]
+            if Question.text == ""{
+                Question.textColor = .lightGray
+                Label.text = "Our magic eight ball is confused, please enter a question. Don't be shy:)"
+            }else{
+                Question.textColor = .black
+                let Rand = Int.random(in: 1..<9)
+                /* var Rand = Int.random(in: 1..<messages.count)*/
+                let message = messages[Rand]
+                Label.textColor = .white
+
+                Label.text = "You asked " + Question.text! + " Our magic eight ball says " + message
+                var player: AVAudioPlayer?
+
+                Question.text = ""
+                func playSound() {
+                    let url = URL(fileURLWithPath: Bundle.main.path(forResource: "Sound", ofType: "mp3")!)
+
+                    do {
+                        player = try AVAudioPlayer(contentsOf: url)
+                        guard let player = player else { return }
+
+                        player.prepareToPlay()
+                        player.play()
+
+                    } catch let error as NSError {
+                        print(error.description)
+                    }
+                }
+        }
+
+    }
